@@ -29,6 +29,7 @@ body {
 .chartWrapper {
   height: 500px;
   color: black;
+  background-color: #eee;
   font-size: calc(10px + 1vmin);
 }
 
