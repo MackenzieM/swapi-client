@@ -1,5 +1,6 @@
 import React from "react";
 import { ResponsiveBar } from '@nivo/bar'
+import CostApiClient, {CostApiResponse, StarshipExpense} from "../client/cost-api-client.ts";
 
 const hardCodedTestData: any[] = [
     {
@@ -67,7 +68,17 @@ const hardCodedTestData: any[] = [
     }
 ];
 
-const Chart = () => {
+const Chart = (apiData: CostApiResponse) => {
+    const data: any[] = [];
+    if (apiData && apiData.starships) {
+        const filmData: any = {
+            film: apiData.film
+        };
+        apiData.starships.forEach((starship: StarshipExpense) => {
+           filmData[starship.name] = starship.cost
+        });
+    }
+
     const BarChart = (data: any[]) => {
         console.log(data);
         const responsiveBar = <><ResponsiveBar
@@ -158,7 +169,7 @@ const Chart = () => {
         return responsiveBar;
     }
     return (<div className={"chartWrapper"}>
-        { BarChart(hardCodedTestData) }
+        { BarChart(data) }
     </div>);
 }
 
