@@ -1,0 +1,24 @@
+
+services:
+  frontend:
+    image: nginx-frontend
+    build:
+      context: ./cost_analytics_view
+      args:
+        - REACT_APP_SERVICES_HOST=/api
+    ports:
+      - "80:80"
+    networks:
+      - frontend
+      - backend
+
+  backend:
+    image: nginx-backend
+    build:
+      context: ./api
+    networks:
+      - backend
+
+networks:
+  frontend:
+  backend:

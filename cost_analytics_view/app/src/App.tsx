@@ -5,7 +5,6 @@ import CostApiClient, { defaultCostResponse } from "./client/cost-api-client.ts"
 
 function App() {
     const costApiClient = new CostApiClient();
-    console.log(costApiClient);
     let [costData, setCostData] = useState(defaultCostResponse);
 
     useEffect(() => {
@@ -19,7 +18,7 @@ function App() {
           Galactic Spending Report
         </h1>
       </header>
-        <Chart apiData={costData}></Chart>
+        { Chart(costData) }
     </div>
   );
 }
