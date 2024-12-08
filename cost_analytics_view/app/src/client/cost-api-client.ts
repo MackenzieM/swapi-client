@@ -1,6 +1,6 @@
 export interface StarshipExpense {
     name: string,
-    cost: number
+    cost: string
 }
 
 export interface CostApiResponse {

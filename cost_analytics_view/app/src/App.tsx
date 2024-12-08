@@ -9,7 +9,7 @@ function App() {
 
     useEffect(() => {
         costApiClient.getCosts().then((response => setCostData(response)));
-    });
+    }, []);
 
     return (
     <div className="App">

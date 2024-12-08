@@ -69,28 +69,27 @@ const hardCodedTestData: any[] = [
 ];
 
 const Chart = (apiData: CostApiResponse) => {
+    console.log(apiData);
     const data: any[] = [];
+    const shipNames: Set<string> = new Set<string>();
     if (apiData && apiData.starships) {
         const filmData: any = {
             film: apiData.film
         };
         apiData.starships.forEach((starship: StarshipExpense) => {
-           filmData[starship.name] = starship.cost
+            const cost = parseInt(starship.cost);
+            if (!isNaN(cost)) {
+                filmData[starship.name] = cost;
+                shipNames.add(starship.name);
+            }
         });
+        data.push(filmData);
     }
-
-    const BarChart = (data: any[]) => {
+    const BarChart = (data: any[], keys: string[]) => {
         console.log(data);
-        const responsiveBar = <><ResponsiveBar
+        return (<ResponsiveBar
             data={data}
-            keys={[
-                'hot dog',
-                'burger',
-                'sandwich',
-                'kebab',
-                'fries',
-                'donut'
-            ]}
+            keys={keys}
             indexBy="film"
             margin={{top: 50, right: 130, bottom: 50, left: 60}}
             padding={0.3}
@@ -121,7 +120,7 @@ const Chart = (apiData: CostApiResponse) => {
                 tickSize: 5,
                 tickPadding: 5,
                 tickRotation: 0,
-                legend: 'food',
+                legend: 'starship',
                 legendPosition: 'middle',
                 legendOffset: -40,
                 truncateTickAt: 0
@@ -164,12 +163,10 @@ const Chart = (apiData: CostApiResponse) => {
             role="application"
             ariaLabel="Nivo bar chart demo"
             barAriaLabel={e => e.id + ": " + e.formattedValue + " in film: " + e.indexValue}
-        ></ResponsiveBar></>;
-        console.log(responsiveBar);
-        return responsiveBar;
+        ></ResponsiveBar>);
     }
     return (<div className={"chartWrapper"}>
-        { BarChart(data) }
+        { BarChart(data, Array.from(shipNames)) }
     </div>);
 }
 
