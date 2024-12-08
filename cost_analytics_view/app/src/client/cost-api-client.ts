@@ -3,19 +3,16 @@ export interface StarshipExpense {
     cost: string
 }
 
-export interface CostApiResponse {
+export interface FilmExpense {
     film: string | null,
     starships: StarshipExpense[]
 }
 
-export const defaultCostResponse: CostApiResponse = {
-    film: null,
-    starships: []
-}
+export const defaultCostResponse: FilmExpense[] = [];
 
 class CostApiClient {
 
-    public async getCosts(): Promise<CostApiResponse> {
+    public async getCosts(): Promise<FilmExpense[]> {
         return await fetch("http://localhost/api/cost-report", {
             headers: {
                 "Content-Type": "application/json"
@@ -28,7 +25,7 @@ class CostApiClient {
         .catch((err) => {
             console.error("API returned in error");
             console.error(err);
-            return defaultCostResponse;
+            return [];
         });
     }
 }

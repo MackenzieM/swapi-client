@@ -1,6 +1,6 @@
 import React from "react";
 import { ResponsiveBar } from '@nivo/bar'
-import CostApiClient, {CostApiResponse, StarshipExpense} from "../client/cost-api-client.ts";
+import CostApiClient, {FilmExpense, StarshipExpense} from "../client/cost-api-client.ts";
 
 const hardCodedTestData: any[] = [
     {
@@ -68,22 +68,24 @@ const hardCodedTestData: any[] = [
     }
 ];
 
-const Chart = (apiData: CostApiResponse) => {
+const Chart = (apiData: FilmExpense[]) => {
     console.log(apiData);
     const data: any[] = [];
     const shipNames: Set<string> = new Set<string>();
-    if (apiData && apiData.starships) {
-        const filmData: any = {
-            film: apiData.film
-        };
-        apiData.starships.forEach((starship: StarshipExpense) => {
-            const cost = parseInt(starship.cost);
-            if (!isNaN(cost)) {
-                filmData[starship.name] = cost;
-                shipNames.add(starship.name);
-            }
+    if (apiData) {
+        apiData.forEach((expense) => {
+            const filmData: any = {
+                film: expense.film
+            };
+            expense.starships.forEach((starship: StarshipExpense) => {
+                const cost = parseInt(starship.cost);
+                if (!isNaN(cost)) {
+                    filmData[starship.name] = cost;
+                    shipNames.add(starship.name);
+                }
+            });
+            data.push(filmData);
         });
-        data.push(filmData);
     }
     const BarChart = (data: any[], keys: string[]) => {
         console.log(data);

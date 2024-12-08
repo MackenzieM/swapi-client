@@ -15,8 +15,11 @@ def cost_report():
     for film in films:
         films_to_ships[film["title"]] = [{"name":starship['name'], "cost":starship['cost_in_credits']} for starship in starships if starship["url"] in film["starships"]]
 
-    response = dict()
-    response["film"] = films[0]["title"]
-    response["starships"] = films_to_ships[films[0]["title"]]
+    response = []
+    for film in films:
+        film_response = dict()
+        film_response["film"] = film["title"]
+        film_response["starships"] = films_to_ships[film["title"]]
+        response.append(film_response)
 
     return response
