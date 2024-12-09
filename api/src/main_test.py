@@ -9,6 +9,7 @@ class MainTest(unittest.TestCase):
         self.assertEqual(len(FILMS), len(actual))
         for film in actual:
             self.assertGreater(len(film["starships"]), 0)
+            self.assertIsNotNone(film["film"])
             for ship in film["starships"]:
                 self.assertIsNotNone(ship["cost"])
                 self.assertIsNotNone(ship["name"])

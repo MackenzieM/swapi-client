@@ -7,8 +7,8 @@ WORKDIR /app
 COPY ./package.json /app/package.json
 COPY ./package-lock.json /app/package-lock.json
 
-COPY ./app/public /app/public
-COPY ./app/src /app/src
+COPY ./src/public /app/public
+COPY ./src/app /app/src
 
 RUN npm install ajv --legacy-peer-deps
 RUN npm install --legacy-peer-deps

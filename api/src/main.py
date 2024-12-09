@@ -28,7 +28,7 @@ def build_report(films, starships):
     response = []
     for film in films:
         film_response = dict()
-        film_response["film"] = film["title"]
+        film_response["film"] = dict(name=film["title"], episode_id=film["episode_id"], release_date=film["release_date"])
         film_response["starships"] = films_to_ships[film["title"]]
         response.append(film_response)
     return response

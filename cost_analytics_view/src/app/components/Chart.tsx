@@ -2,10 +2,19 @@ import React from "react";
 import { ResponsiveBar } from '@nivo/bar'
 import { FilmExpense, StarshipExpense } from "../client/cost-api-client.ts";
 
-const Chart = (apiData: FilmExpense[]) => {
+const Chart = (apiData: FilmExpense[], sortMode: string) => {
     const data: any[] = [];
     // const shipNames: Set<string> = new Set<string>();
     if (apiData) {
+        apiData.sort((a, b) => {
+            switch(sortMode) {
+                case "episode_id":
+                    return a["film"][sortMode] - b["film"][sortMode];
+                case "release_date":
+                    return Date.parse(a["film"][sortMode]) - Date.parse(b["film"][sortMode]);
+            }
+            return 0;
+        });
         apiData.forEach((expense) => {
             const filmData: any = {
                 film: expense.film
@@ -26,8 +35,8 @@ const Chart = (apiData: FilmExpense[]) => {
         return (<ResponsiveBar
             data={data}
             keys={['cost']}
-            indexBy="film"
-            margin={{top: 50, right: 130, bottom: 100, left: 150}}
+            indexBy={(exp) => exp["film"]["name"]}
+            margin={{top: 50, right: 80, bottom: 150, left: 80}}
             valueScale={{type: 'symlog'}}
             valueFormat={'>-e'}
             indexScale={{type: 'band', round: true}}
@@ -43,17 +52,17 @@ const Chart = (apiData: FilmExpense[]) => {
             }}
             axisTop={null}
             axisRight={null}
-            axisBottom={{
+            axisLeft={{
                 tickSize: 10,
                 tickPadding: 5,
-                tickRotation: -90,
+                tickRotation: -0,
                 legendPosition: 'middle',
                 legendOffset: 32,
                 truncateTickAt: 5,
                 format: '>-g'
             }}
             groupMode={"grouped"}
-            axisLeft={{
+            axisBottom={{
                 tickSize: 5,
                 tickPadding: 5,
                 tickRotation: -40,
@@ -73,7 +82,6 @@ const Chart = (apiData: FilmExpense[]) => {
                     ]
                 ]
             }}
-            layout={"horizontal"}
             legends={[
                 {
                     dataFrom: 'keys',
@@ -81,7 +89,7 @@ const Chart = (apiData: FilmExpense[]) => {
                     direction: 'row',
                     justify: false,
                     translateX: 0,
-                    translateY: 75,
+                    translateY: 100,
                     itemsSpacing: 2,
                     itemWidth: 100,
                     itemHeight: 20,

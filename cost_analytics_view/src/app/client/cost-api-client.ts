@@ -4,7 +4,11 @@ export interface StarshipExpense {
 }
 
 export interface FilmExpense {
-    film: string | null,
+    film: {
+        name: string,
+        episode_id: number,
+        release_date: string,
+    },
     starships: StarshipExpense[]
 }
 
