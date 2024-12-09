@@ -115,7 +115,6 @@ const Chart = (apiData: FilmExpense[]) => {
                 tickSize: 10,
                 tickPadding: 5,
                 tickRotation: -90,
-                legend: 'cost',
                 legendPosition: 'middle',
                 legendOffset: 32,
                 truncateTickAt: 5,
@@ -126,7 +125,6 @@ const Chart = (apiData: FilmExpense[]) => {
                 tickSize: 5,
                 tickPadding: 5,
                 tickRotation: -40,
-                legend: 'film',
                 legendPosition: 'middle',
                 legendOffset: -40,
                 truncateTickAt: 0
