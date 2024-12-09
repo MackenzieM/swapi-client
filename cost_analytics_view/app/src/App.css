@@ -35,6 +35,13 @@ body {
   padding: 0 1vw;
 }
 
+.loadingIndicator {
+  width: 200px;
+  height: 200px;
+  margin: auto;
+  text-align: center;
+}
+
 .App-link {
   color: #61dafb;
 }

@@ -6,7 +6,6 @@ from fastapi import FastAPI
 
 app = FastAPI()
 
-
 @app.get("/api/cost-report")
 def cost_report():
     try:

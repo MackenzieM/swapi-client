@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import { PacmanLoader } from "react-spinners";
 import './App.css';
 import Chart from "./components/Chart.tsx";
 import CostApiClient, { defaultCostResponse } from "./client/cost-api-client.ts";
@@ -18,7 +19,12 @@ function App() {
           Galactic Spending Report
         </h1>
       </header>
-        { Chart(costData) }
+        { costData.length > 0 ? Chart(costData) : <div className={"loadingIndicator"}>
+            <PacmanLoader
+                color={"rgb(27, 158, 119)"}
+                size={50}
+            />
+        </div> }
     </div>
   );
 }
