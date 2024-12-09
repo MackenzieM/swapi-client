@@ -77,13 +77,15 @@ const Chart = (apiData: FilmExpense[]) => {
             const filmData: any = {
                 film: expense.film
             };
+            let totalCost = 0;
             expense.starships.forEach((starship: StarshipExpense) => {
                 const cost = parseInt(starship.cost);
                 if (!isNaN(cost)) {
-                    filmData[starship.name] = cost;
+                    totalCost += cost;
                     shipNames.add(starship.name);
                 }
             });
+            filmData['cost'] = totalCost
             data.push(filmData);
         });
     }
@@ -91,11 +93,11 @@ const Chart = (apiData: FilmExpense[]) => {
         console.log(data);
         return (<ResponsiveBar
             data={data}
-            keys={keys}
+            keys={['cost']}
             indexBy="film"
-            margin={{top: 50, right: 130, bottom: 50, left: 60}}
-            padding={0.3}
-            valueScale={{type: 'linear'}}
+            margin={{top: 50, right: 130, bottom: 100, left: 150}}
+            valueScale={{type: 'symlog'}}
+            valueFormat={'>-e'}
             indexScale={{type: 'band', round: true}}
             colors={{scheme: 'dark2'}}
             borderColor={{
@@ -110,42 +112,46 @@ const Chart = (apiData: FilmExpense[]) => {
             axisTop={null}
             axisRight={null}
             axisBottom={{
-                tickSize: 5,
+                tickSize: 10,
                 tickPadding: 5,
-                tickRotation: 0,
-                legend: 'film',
+                tickRotation: -90,
+                legend: 'cost',
                 legendPosition: 'middle',
                 legendOffset: 32,
-                truncateTickAt: 0
+                truncateTickAt: 5,
+                format: '>-g'
             }}
+            groupMode={"grouped"}
             axisLeft={{
                 tickSize: 5,
                 tickPadding: 5,
-                tickRotation: 0,
-                legend: 'starship',
+                tickRotation: -40,
+                legend: 'film',
                 legendPosition: 'middle',
                 legendOffset: -40,
                 truncateTickAt: 0
             }}
-            labelSkipWidth={12}
+            labelSkipWidth={20}
             labelSkipHeight={12}
+            labelPosition={"middle"}
             labelTextColor={{
                 from: 'color',
                 modifiers: [
                     [
                         'darker',
-                        1.6
+                        1.8
                     ]
                 ]
             }}
+            layout={"horizontal"}
             legends={[
                 {
                     dataFrom: 'keys',
-                    anchor: 'bottom-right',
-                    direction: 'column',
+                    anchor: 'bottom',
+                    direction: 'row',
                     justify: false,
-                    translateX: 120,
-                    translateY: 0,
+                    translateX: 0,
+                    translateY: 75,
                     itemsSpacing: 2,
                     itemWidth: 100,
                     itemHeight: 20,
