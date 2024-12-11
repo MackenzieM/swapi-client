@@ -3,6 +3,8 @@ usafacts code assessment
 
 This project spins up two docker services, a frontend react app and a backend python FastApi server. When running, the frontend is served at `localhost` (no port specification required).
 
+![Screenshot 2024-12-10 at 6 41 14 PM](https://github.com/user-attachments/assets/40b9be7a-4cdf-428d-a913-f925dfdb002a)
+
 ## running instructions
 
 1. Ensure the docker daemon is running
