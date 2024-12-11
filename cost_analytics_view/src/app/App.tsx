@@ -34,6 +34,7 @@ function App() {
                 <span>{sortMode === "episode_id" ? "Sorted By Episode" : "Sorted By Release"}</span>
                 <button onClick={toggleSortMode}>Toggle Chronology</button>
             </label>
+            <p>The data shows that galactic spending on starship, when viewed by either chronology, is not trending significantly upward.</p>
         </div>)}
     </div>
   );
