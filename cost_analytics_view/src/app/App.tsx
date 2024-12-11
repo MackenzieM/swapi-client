@@ -22,7 +22,7 @@ function App() {
           Galactic Spending Report
         </h1>
       </header>
-        { costData.length > 0 ? Chart(costData, sortMode) : <div className={"loadingIndicator"}>
+        { costData.length > 0 ? Chart(costData, sortMode) : <div role="progressbar" className={"loadingIndicator"}>
             <PacmanLoader
                 color={"rgb(27, 158, 119)"}
                 size={50}

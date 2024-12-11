@@ -2,40 +2,48 @@ import React from "react";
 import { ResponsiveBar } from '@nivo/bar'
 import { FilmExpense, StarshipExpense } from "../client/cost-api-client.ts";
 
+export const sortDataByMode = (apiData: FilmExpense[], sortMode: string) => {
+    apiData.sort((a, b) => {
+        switch (sortMode) {
+            case "episode_id":
+                return a.film[sortMode] - b.film[sortMode];
+            case "release_date":
+                return Date.parse(a.film[sortMode]) - Date.parse(b.film[sortMode]);
+        }
+        return 0;
+    });
+};
+
+export const formatChartData = (apiData: FilmExpense[]): any[] => {
+    return apiData.map((expense) => {
+        const filmData: any = {
+            film: expense.film
+        };
+        let totalCost = 0;
+        expense.starships.forEach((starship: StarshipExpense) => {
+            const cost = parseInt(starship.cost);
+            if (!isNaN(cost)) {
+                totalCost += cost;
+                // shipNames.add(starship.name);
+            }
+        });
+        filmData.cost = totalCost
+        return filmData;
+    });
+};
+
 const Chart = (apiData: FilmExpense[], sortMode: string) => {
-    const data: any[] = [];
+    let data: any[] = [];
     // const shipNames: Set<string> = new Set<string>();
     if (apiData) {
-        apiData.sort((a, b) => {
-            switch(sortMode) {
-                case "episode_id":
-                    return a["film"][sortMode] - b["film"][sortMode];
-                case "release_date":
-                    return Date.parse(a["film"][sortMode]) - Date.parse(b["film"][sortMode]);
-            }
-            return 0;
-        });
-        apiData.forEach((expense) => {
-            const filmData: any = {
-                film: expense.film
-            };
-            let totalCost = 0;
-            expense.starships.forEach((starship: StarshipExpense) => {
-                const cost = parseInt(starship.cost);
-                if (!isNaN(cost)) {
-                    totalCost += cost;
-                    // shipNames.add(starship.name);
-                }
-            });
-            filmData['cost'] = totalCost
-            data.push(filmData);
-        });
+        sortDataByMode(apiData, sortMode);
+        data = formatChartData(apiData);
     }
     const BarChart = (data: any[]) => {
         return (<ResponsiveBar
             data={data}
             keys={['cost']}
-            indexBy={(exp) => exp["film"]["name"]}
+            indexBy={(exp) => exp.film.name}
             margin={{top: 50, right: 80, bottom: 150, left: 80}}
             valueScale={{type: 'symlog'}}
             valueFormat={'>-e'}
