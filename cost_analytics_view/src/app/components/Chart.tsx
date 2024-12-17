@@ -14,6 +14,11 @@ export const sortDataByMode = (apiData: FilmExpense[], sortMode: string) => {
     });
 };
 
+export const safeParse = (cost: string) : number => {
+    const parsedCost = parseInt(cost);
+    return isNaN(parsedCost) ? 0 : parsedCost;
+}
+
 export const formatChartData = (apiData: FilmExpense[]): any[] => {
     return apiData.map((expense) => {
         const filmData: any = {
@@ -21,11 +26,8 @@ export const formatChartData = (apiData: FilmExpense[]): any[] => {
         };
         let totalCost = 0;
         expense.starships.forEach((starship: StarshipExpense) => {
-            const cost = parseInt(starship.cost);
-            if (!isNaN(cost)) {
-                totalCost += cost;
-                // shipNames.add(starship.name);
-            }
+            totalCost += safeParse(starship.cost);
+            // shipNames.add(starship.name);
         });
         filmData.cost = totalCost
         return filmData;
